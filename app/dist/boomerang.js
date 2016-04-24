@@ -48,34 +48,34 @@ angular.module('gdgXBoomerang')
 .factory('Config', function () {
     return {
         // TODO Modify these to configure your app
-        'name'          : 'GDG Space Coast',
-        'id'            : '103959793061819610212',
-        'googleApi'     : 'AIzaSyA9ALjr2iWvhf3Rsz9-bH0cEcDcrdkpuAg',
-        'pwaId'         : '5915725140705884785', // Picasa Web Album id, must belong to Google+ id above
-        'domain'        : 'http://www.gdgspacecoast.org',
-        'twitter'       : 'gdgspacecoast',
-        'facebook'      : 'gdgspacecoast',
-        'youtube'       : 'UCkiYHK3IZMk5XsYZ626b9Rw',
-        'meetup'        : 'gdgspacecoast',
+        'name'          : 'GDG Sacramento',
+        'id'            : '108577940252424736338',
+        'googleApi'     : 'AIzaSyAuC-31jMTLHuDydPf95hr-7xONjku8wdQ',
+        'pwaId'         : '', // Picasa Web Album id, must belong to Google+ id above
+        'domain'        : 'http://www.gdgsacramento.org',
+        'twitter'       : '',
+        'facebook'      : '',
+        'youtube'       : '',
+        'meetup'        : 'gdgsacramento',
         // Change to 'EEEE, MMMM d, y - H:mm' for 24 hour time format.
         'dateFormat'    : 'EEEE, MMMM d, y - h:mm a',
         'cover' : {
-            title: 'Android Development for Beginners',
-            subtitle: 'Google Developers Study Jams is a free series of global, community-run, in-person study groups.',
+            title: 'Next Event: April 26 - Introduction to Angular 2 (beta)',
+            subtitle: 'Learn what\'s new and improved in the new major version update',
             button: {
-                text: 'Learn More',
-                url: 'http://developerstudyjams.com/'
+                text: 'RSVP',
+                url: 'http://www.meetup.com/gdgsacramento/events/230401968/'
             }
         },
         'activities': {
             techTalks: true,
             codeLabs: true,
-            hackathons: true,
+            hackathons: false,
             devFests: true,
-            appClinics: true,
-            panels: true,
-            designSprints: true,
-            roundTables: true
+            appClinics: false,
+            panels: false,
+            designSprints: false,
+            roundTables: false
         },
         'HUB_IP': 'https://hub.gdgx.io'
         // To update the snippet which is used for sharing, see the TODO in the index.html.
@@ -303,83 +303,6 @@ angular.module('gdgXBoomerang')
     getPastEventsPage(1);
 });
 
-// Google+ hashtag linky from http://plnkr.co/edit/IEpLfZ8gO2B9mJcTKuWY?p=preview
-angular.module('gdgXBoomerang')
-.filter('hashLinky', function() {
-    var ELEMENT_NODE = 1;
-    var TEXT_NODE = 3;
-    var linkifiedDOM = document.createElement('div');
-    var inputDOM = document.createElement('div');
-
-    return function(input) {
-        inputDOM.innerHTML = input;
-        return hashLinky(inputDOM).innerHTML;
-    };
-
-    function hashLinky(startNode) {
-        var i, currentNode;
-        for (i = 0; i < startNode.childNodes.length; i++) {
-            currentNode = startNode.childNodes[i];
-
-            switch (currentNode.nodeType) {
-                case ELEMENT_NODE:
-                    hashLinky(currentNode);
-                    break;
-                case TEXT_NODE:
-                    var hashtagRegex = /#([A-Za-z0-9-_]+)/g;
-                    currentNode.textContent =  currentNode.textContent.replace(hashtagRegex,
-                        '<a href="https://plus.google.com/s/%23$1" target="_blank">#$1</a>');
-
-                    linkifiedDOM.innerHTML = currentNode.textContent;
-                    i += linkifiedDOM.childNodes.length - 1;
-
-                    while (linkifiedDOM.childNodes.length) {
-                        startNode.insertBefore(linkifiedDOM.childNodes[0], currentNode);
-                    }
-                    startNode.removeChild(currentNode);
-            }
-        }
-        return startNode;
-    }
-});
-
-// HTML-ified linky from http://plnkr.co/edit/IEpLfZ8gO2B9mJcTKuWY?p=preview
-angular.module('gdgXBoomerang')
-.filter('htmlLinky', function($filter) {
-    var ELEMENT_NODE = 1;
-    var TEXT_NODE = 3;
-    var linkifiedDOM = document.createElement('div');
-    var inputDOM = document.createElement('div');
-
-    return function(input) {
-        inputDOM.innerHTML = input;
-        return linkify(inputDOM).innerHTML;
-    };
-
-    function linkify(startNode) {
-        var i, currentNode;
-        for (i = 0; i < startNode.childNodes.length; i++) {
-            currentNode = startNode.childNodes[i];
-
-            switch (currentNode.nodeType) {
-                case ELEMENT_NODE:
-                    linkify(currentNode);
-                    break;
-                case TEXT_NODE:
-                    linkifiedDOM.innerHTML = $filter('linky')(currentNode.textContent, '_blank');
-                    i += linkifiedDOM.childNodes.length - 1;
-
-                    while (linkifiedDOM.childNodes.length) {
-                        startNode.insertBefore(linkifiedDOM.childNodes[0], currentNode);
-                    }
-
-                    startNode.removeChild(currentNode);
-            }
-        }
-        return startNode;
-    }
-});
-
 angular.module('gdgXBoomerang')
 .controller('NewsController', function ($http, $timeout, $filter, $log, $sce, Config, NavService) {
     var vm = this;
@@ -462,6 +385,83 @@ angular.module('gdgXBoomerang')
             vm.organizers = data.organizers;
         }
     });
+});
+
+// Google+ hashtag linky from http://plnkr.co/edit/IEpLfZ8gO2B9mJcTKuWY?p=preview
+angular.module('gdgXBoomerang')
+.filter('hashLinky', function() {
+    var ELEMENT_NODE = 1;
+    var TEXT_NODE = 3;
+    var linkifiedDOM = document.createElement('div');
+    var inputDOM = document.createElement('div');
+
+    return function(input) {
+        inputDOM.innerHTML = input;
+        return hashLinky(inputDOM).innerHTML;
+    };
+
+    function hashLinky(startNode) {
+        var i, currentNode;
+        for (i = 0; i < startNode.childNodes.length; i++) {
+            currentNode = startNode.childNodes[i];
+
+            switch (currentNode.nodeType) {
+                case ELEMENT_NODE:
+                    hashLinky(currentNode);
+                    break;
+                case TEXT_NODE:
+                    var hashtagRegex = /#([A-Za-z0-9-_]+)/g;
+                    currentNode.textContent =  currentNode.textContent.replace(hashtagRegex,
+                        '<a href="https://plus.google.com/s/%23$1" target="_blank">#$1</a>');
+
+                    linkifiedDOM.innerHTML = currentNode.textContent;
+                    i += linkifiedDOM.childNodes.length - 1;
+
+                    while (linkifiedDOM.childNodes.length) {
+                        startNode.insertBefore(linkifiedDOM.childNodes[0], currentNode);
+                    }
+                    startNode.removeChild(currentNode);
+            }
+        }
+        return startNode;
+    }
+});
+
+// HTML-ified linky from http://plnkr.co/edit/IEpLfZ8gO2B9mJcTKuWY?p=preview
+angular.module('gdgXBoomerang')
+.filter('htmlLinky', function($filter) {
+    var ELEMENT_NODE = 1;
+    var TEXT_NODE = 3;
+    var linkifiedDOM = document.createElement('div');
+    var inputDOM = document.createElement('div');
+
+    return function(input) {
+        inputDOM.innerHTML = input;
+        return linkify(inputDOM).innerHTML;
+    };
+
+    function linkify(startNode) {
+        var i, currentNode;
+        for (i = 0; i < startNode.childNodes.length; i++) {
+            currentNode = startNode.childNodes[i];
+
+            switch (currentNode.nodeType) {
+                case ELEMENT_NODE:
+                    linkify(currentNode);
+                    break;
+                case TEXT_NODE:
+                    linkifiedDOM.innerHTML = $filter('linky')(currentNode.textContent, '_blank');
+                    i += linkifiedDOM.childNodes.length - 1;
+
+                    while (linkifiedDOM.childNodes.length) {
+                        startNode.insertBefore(linkifiedDOM.childNodes[0], currentNode);
+                    }
+
+                    startNode.removeChild(currentNode);
+            }
+        }
+        return startNode;
+    }
 });
 
 angular.module('gdgXBoomerang')
